@@ -200,9 +200,11 @@ function createFollowerCards(array){
         let userLocation = document.createElement("p");
         userLocation.textContent = `Location: ${profile.location}`;
 
-        let userProfile = document.createElement("a");
-        userProfile.textContent = `Profile: ${profile.url}`;
-        userProfile.href = profile.url;
+        let userProfile = document.createElement("p");
+        userProfile.textContent = `Profile: `;
+        userProfileUrl = document.createElement("a");
+        userProfileUrl.textContent = profile.url;
+        userProfileUrl.href = profile.url;
 
         let userFollowers = document.createElement("p");
         userFollowers.textContent = `Followers: ${profile.followers}`;
@@ -225,6 +227,7 @@ function createFollowerCards(array){
         cardInfo.appendChild(userHandle);
         cardInfo.appendChild(userLocation);
         cardInfo.appendChild(userProfile);
+        userProfile.appendChild(userProfileUrl);
         cardInfo.appendChild(userFollowers);
         cardInfo.appendChild(userFollowing);
         cardInfo.appendChild(userBio);
