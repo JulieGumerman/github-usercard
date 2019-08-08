@@ -10,17 +10,17 @@
 
    Skip to Step 3.
 */
-const cards = document.querySelector(".cards");
-async function cardCreator() {
-  axios.get("https://api.github.com/users/JulieGumerman")
-  .then((response) => createCard(response.data))
-// .then((response) => console.log(response.data))
-.catch((err) => {
-  console.log("oops");
-})
+// const cards = document.querySelector(".cards");
+// async function cardCreator() {
+//   axios.get("https://api.github.com/users/JulieGumerman")
+//   .then((response) => createCard(response.data))
+// // .then((response) => console.log(response.data))
+// .catch((err) => {
+//   console.log("oops");
+// })
 
 
-}
+// }
 
 // avatar_url: "https://avatars2.githubusercontent.com/u/45279658?v=4"
 // bio: null
@@ -62,8 +62,12 @@ function createCard(obj) {
   let userCard = document.createElement("div");
   userCard.classList.add("card");
 
+  let cardInfo = document.createElement("div");
+  cardInfo.classList.add("card-info");
+
   let avatarImg = document.createElement("img");
   avatarImg.src = obj.avatar_url;
+
 
   let userName = document.createElement("h2");
   userName.classList.add("name");
@@ -78,9 +82,10 @@ function createCard(obj) {
 
   //putting card together
   userCard.appendChild(avatarImg);
-  userCard.appendChild(userName);
-  userCard.appendChild(userP);
-  userCard.appendChild(userHandle);
+  userCard.append(cardInfo);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(userP);
+  cardInfo.appendChild(userHandle);
 
   cards.appendChild(userCard);
   
@@ -104,7 +109,8 @@ function createCard(obj) {
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -125,6 +131,56 @@ const followersArray = [];
 </div>
 
 */
+
+function createFollowerCards(array){
+
+    //elements, classes, and content
+    let userCard = document.createElement("div");
+    userCard.classList.add("card");
+  
+    let cardInfo = document.createElement("div");
+    cardInfo.classList.add("card-info");
+  
+    let avatarImg = document.createElement("img");
+    avatarImg.src = obj.avatar_url;
+
+    let userHandle = document.createElement("h3");
+    userHandle.classList.add("username");
+    userHandle.textContent = obj.login;  
+  
+    let userName = document.createElement("h3");
+    userName.classList.add("name");
+    userName.textContent = obj.login;
+  
+    let userLocation = document.createElement("p");
+    userLocation.textContent = obj.location;
+
+    let userProfile = document.createElement("p");
+    userProfile.textContent = obj.url;
+
+    let userFollowers = document.createElement("p");
+    userFollowers.textContent = obj.followers;
+
+    let userFollowing = document.createElement("p");
+    userFollowing.textContent = obj.following;
+  
+
+  
+    //putting card together
+    userCard.appendChild(avatarImg);
+    userCard.append(cardInfo);
+    cardInfo.appendChild(userName);
+    cardInfo.appendChild(userHandle);
+    cardInfo.appendChild(userLocation);
+    cardInfo.appendChild(userProfile);
+    cardInfo.appendChild(userFollowers);
+    cardInfo.appendChild(userFollowing);
+  
+    cards.appendChild(userCard);
+
+    return userCard;
+
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
