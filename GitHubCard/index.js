@@ -10,49 +10,19 @@
 
    Skip to Step 3.
 */
-// const cards = document.querySelector(".cards");
-// async function cardCreator() {
-//   axios.get("https://api.github.com/users/JulieGumerman")
-//   .then((response) => createCard(response.data))
-// // .then((response) => console.log(response.data))
-// .catch((err) => {
-//   console.log("oops");
-// })
+const cards = document.querySelector(".cards");
+async function cardCreator() {
+  axios.get("https://api.github.com/users/JulieGumerman")
+  .then((response) => createCard(response.data))
+// .then((response) => console.log(response.data))
+.catch((err) => {
+  console.log("oops");
+})
 
 
-// }
+}
 
-// avatar_url: "https://avatars2.githubusercontent.com/u/45279658?v=4"
-// bio: null
-// blog: "www.juliegumerman.com"
-// company: null
-// created_at: "2018-11-23T04:50:39Z"
-// email: null
-// events_url: "https://api.github.com/users/JulieGumerman/events{/privacy}"
-// followers: 7
-// followers_url: "https://api.github.com/users/JulieGumerman/followers"
-// following: 2
-// following_url: "https://api.github.com/users/JulieGumerman/following{/other_user}"
-// gists_url: "https://api.github.com/users/JulieGumerman/gists{/gist_id}"
-// gravatar_id: ""
-// hireable: true
-// html_url: "https://github.com/JulieGumerman"
-// id: 45279658
-// location: "Colorado Springs, Colorado"
-// login: "JulieGumerman"
-// name: "JulieGumerman"
-// node_id: "MDQ6VXNlcjQ1Mjc5NjU4"
-// organizations_url: "https://api.github.com/users/JulieGumerman/orgs"
-// public_gists: 0
-// public_repos: 32
-// received_events_url: "https://api.github.com/users/JulieGumerman/received_events"
-// repos_url: "https://api.github.com/users/JulieGumerman/repos"
-// site_admin: false
-// starred_url: "https://api.github.com/users/JulieGumerman/starred{/owner}{/repo}"
-// subscriptions_url: "https://api.github.com/users/JulieGumerman/subscriptions"
-// type: "User"
-// updated_at: "2019-07-11T17:07:52Z"
-// url: "https://api.github.com/users/JulieGumerman"
+
  
 window.addEventListener("load", cardCreator);
 
@@ -73,19 +43,35 @@ function createCard(obj) {
   userName.classList.add("name");
   userName.textContent = obj.name;
 
-  let userP = document.createElement("p");
-  userP.textContent = obj.bio;
+  let userLocation = document.createElement("p");
+  userLocation.textContent = `Location: ${obj.location}`;
 
   let userHandle = document.createElement("h3");
   userHandle.classList.add("username");
   userHandle.textContent = obj.login;
 
+  let userProfile = document.createElement("a");
+  userProfile.textContent = `Profile: ${obj.url}`;
+  userProfile.href = obj.url;
+
+  let userFollowers = document.createElement("p");
+  userFollowers.textContent = `Followers: ${obj.followers}`;
+
+
+
+  let userBio = document.createElement("p");
+  userBio.textContent = `Bio: ${obj.bio}`
+
   //putting card together
   userCard.appendChild(avatarImg);
   userCard.append(cardInfo);
   cardInfo.appendChild(userName);
-  cardInfo.appendChild(userP);
   cardInfo.appendChild(userHandle);
+  cardInfo.appendChild(userLocation);
+  cardInfo.appendChild(userProfile);
+  cardInfo.appendChild(userFollowers);
+  cardInfo.appendChild(userBio);
+
 
   cards.appendChild(userCard);
   
@@ -110,6 +96,58 @@ function createCard(obj) {
 */
 
 const followersArray = [
+  {
+    "avatar_url": "https://avatars3.githubusercontent.com/u/8921126?s=400&v=4",
+    "name": "Lisa Gumerman",
+    "username": "lisagumerman",
+    "location": "Fort Collins, CO",
+    "url": "https://github.com/lisagumerman",
+    "followers": 1,
+    "following": 0,
+    "bio": "How does this kid not have a jillion followers? Seriously."
+  },
+  {
+    "avatar_url": "https://avatars3.githubusercontent.com/u/2894866?s=400&v=4",
+    "name": "Josiah Haswell",
+    "username": "josiahhaswell",
+    "location": "Fort Collins, CO",
+    "url": "https://github.com/josiahhaswell",
+    "followers": 1,
+    "following": 0,
+    "bio": "He and Lisa are my sister and my brother-in-law, so I have to give them grief."
+  },
+    {
+    "avatar_url": "https://avatars3.githubusercontent.com/u/52683769?s=400&v=4",
+    "name": "Jeffrey Whitaker",
+    "username": "jeffreywhitaker",
+    "location": "Oregon",
+    "url": "https://github.com/jeffreywhitaker",
+    "followers": 3,
+    "following": 7,
+    "bio": "Lambda School student, Web22"
+  },
+
+  {
+    "avatar_url": "https://avatars1.githubusercontent.com/u/38510732?s=400&v=4",
+    "name": "Elizabeth",
+    "username": "pontiferous",
+    "location": "Colorado Springs, CO",
+    "url": "https://github.com/pontiferous",
+    "followers": 5,
+    "following": 6,
+    "bio": "Mediocre nerd and artist. Breakfast food enthusiast. Epilepsy advocate."
+  },
+  {
+    "avatar_url": "https://avatars1.githubusercontent.com/u/14138530?s=400&v=4",
+    "name": "Jonathan Taylor",
+    "username": "jonyonson",
+    "location": "Alabama",
+    "url": "https://github.com/jonyonson",
+    "followers": 12,
+    "following": 14,
+    "bio": "Studying Full-Stack Web Development & Computer Science at Lambda School."
+  }
+
 ];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
@@ -132,56 +170,71 @@ const followersArray = [
 
 */
 
+
+
 function createFollowerCards(array){
 
-    //elements, classes, and content
-    let userCard = document.createElement("div");
-    userCard.classList.add("card");
-  
-    let cardInfo = document.createElement("div");
-    cardInfo.classList.add("card-info");
-  
-    let avatarImg = document.createElement("img");
-    avatarImg.src = obj.avatar_url;
+    let newCards =array.map(profile => { 
+              //elements, classes, and content
+        let userCard = document.createElement("div");
+        userCard.classList.add("card");
+      
+        let cardInfo = document.createElement("div");
+        cardInfo.classList.add("card-info");
+      
+        let avatarImg = document.createElement("img");
+        avatarImg.src = profile.avatar_url;
 
-    let userHandle = document.createElement("h3");
-    userHandle.classList.add("username");
-    userHandle.textContent = obj.login;  
-  
-    let userName = document.createElement("h3");
-    userName.classList.add("name");
-    userName.textContent = obj.login;
-  
-    let userLocation = document.createElement("p");
-    userLocation.textContent = obj.location;
+        let userHandle = document.createElement("h3");
+        userHandle.classList.add("username");
+        userHandle.textContent = profile.username;  
+      
+        let userName = document.createElement("h3");
+        userName.classList.add("name");
+        userName.textContent = profile.name;
+      
+        let userLocation = document.createElement("p");
+        userLocation.textContent = `Location: ${profile.location}`;
 
-    let userProfile = document.createElement("p");
-    userProfile.textContent = obj.url;
+        let userProfile = document.createElement("a");
+        userProfile.textContent = `Profile: ${profile.url}`;
+        userProfile.href = profile.url;
 
-    let userFollowers = document.createElement("p");
-    userFollowers.textContent = obj.followers;
+        let userFollowers = document.createElement("p");
+        userFollowers.textContent = `Followers: ${profile.followers}`;
 
-    let userFollowing = document.createElement("p");
-    userFollowing.textContent = obj.following;
-  
+        // let userFollowing = document.createElement("p");
+        // userFollowing.textContent = `following: ${profile.following}`;
 
-  
-    //putting card together
-    userCard.appendChild(avatarImg);
-    userCard.append(cardInfo);
-    cardInfo.appendChild(userName);
-    cardInfo.appendChild(userHandle);
-    cardInfo.appendChild(userLocation);
-    cardInfo.appendChild(userProfile);
-    cardInfo.appendChild(userFollowers);
-    cardInfo.appendChild(userFollowing);
-  
-    cards.appendChild(userCard);
+        let userFollowing = document.createElement("p");
+        userFollowing.textContent = `Following: ${profile.following}`;
+        
+        // let userBio = document.createElement("p");
+        // userFollowing.textContent = profile.bio;
 
-    return userCard;
+        let userBio = document.createElement("p");
+        userBio.textContent = `Bio: ${profile.bio}`;
+        //putting card together
+        userCard.appendChild(avatarImg);
+        userCard.append(cardInfo);
+        cardInfo.appendChild(userName);
+        cardInfo.appendChild(userHandle);
+        cardInfo.appendChild(userLocation);
+        cardInfo.appendChild(userProfile);
+        cardInfo.appendChild(userFollowers);
+        cardInfo.appendChild(userFollowing);
+        cardInfo.appendChild(userBio);
+        //cardInfo.appendChild(userBio);
+        cards.appendChild(userCard);
 
-}
+        return userCard;
+      });
+    
+    return newCards;
+    
+};
 
+createFollowerCards(followersArray);
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
