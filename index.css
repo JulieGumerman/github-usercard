@@ -112,7 +112,7 @@ body {
   font-size: 3.4rem;
 }
 
-.card p, .card a {
+.card p {
   font-size: 1.4rem;
   margin-bottom: 3px;
 }
@@ -123,8 +123,3 @@ body {
   margin: 3px 0 10px;
 }
 
-.card a {
-  text-decoration: none;
-  color: black;
-  margin-bottom: 10px;
-}

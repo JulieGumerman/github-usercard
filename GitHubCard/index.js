@@ -50,9 +50,12 @@ function createCard(obj) {
   userHandle.classList.add("username");
   userHandle.textContent = obj.login;
 
-  let userProfile = document.createElement("a");
-  userProfile.textContent = `Profile: ${obj.url}`;
-  userProfile.href = obj.url;
+  let userProfile = document.createElement("p");
+  userProfile.textContent = "Profile:";
+  let userProfileUrl = document.createElement("a");
+  userProfileUrl.textContent = `${obj.url}`;
+  userProfileUrl.href = obj.url;
+
 
   let userFollowers = document.createElement("p");
   userFollowers.textContent = `Followers: ${obj.followers}`;
@@ -69,6 +72,7 @@ function createCard(obj) {
   cardInfo.appendChild(userHandle);
   cardInfo.appendChild(userLocation);
   cardInfo.appendChild(userProfile);
+  userProfile.appendChild(userProfileUrl);
   cardInfo.appendChild(userFollowers);
   cardInfo.appendChild(userBio);
 
