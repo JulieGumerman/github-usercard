@@ -10,21 +10,24 @@
 
    Skip to Step 3.
 */
-const cards = document.querySelector(".cards");
+window.addEventListener("load", function(){
+  
+  const cards = document.querySelector(".cards");
+
 async function cardCreator() {
-  axios.get("https://api.github.com/users/JulieGumerman")
-  .then((response) => createCard(response.data))
-// .then((response) => console.log(response.data))
-.catch((err) => {
-  console.log("oops");
-})
+      axios.get("https://api.github.com/users/JulieGumerman")
+      .then((response) => createCard(response.data))
+    // .then((response) => console.log(response.data))
+    .catch((err) => {
+      console.log("oops");
+    })
 
 
 }
 
-
+cardCreator();
  
-window.addEventListener("load", cardCreator);
+
 
 function createCard(obj) {
 
@@ -53,12 +56,15 @@ function createCard(obj) {
   let userProfile = document.createElement("p");
   userProfile.textContent = "Profile:";
   let userProfileUrl = document.createElement("a");
-  userProfileUrl.textContent = `${obj.url}`;
-  userProfileUrl.href = obj.url;
+  userProfileUrl.textContent = `${obj.html_url}`;
+  userProfileUrl.href = obj.html_url;
 
 
   let userFollowers = document.createElement("p");
   userFollowers.textContent = `Followers: ${obj.followers}`;
+
+  let userFollowing = document.createElement("p");
+  userFollowing.textContent = `Following: ${obj.following}`;
 
 
 
@@ -74,6 +80,7 @@ function createCard(obj) {
   cardInfo.appendChild(userProfile);
   userProfile.appendChild(userProfileUrl);
   cardInfo.appendChild(userFollowers);
+  cardInfo.appendChild(userFollowing);
   cardInfo.appendChild(userBio);
 
 
@@ -82,6 +89,7 @@ function createCard(obj) {
 
   return userCard;
 }
+
 
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
@@ -98,32 +106,28 @@ function createCard(obj) {
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
+let followersArray = ["tetondan", "allisonkydy", "justsml", "luishrd", "bigknell"];
 
-async function newPerson() {
-  axios.get("https://api.github.com/users/JulieGumerman/followers")
-    .then(response => {
-      console.log("Yay!!!");
-      let followersArray = [];
-      response.data.forEach((person) => {
-        followersArray.push(person);
-      }) //close for each
+//followers_url
+//`htttps://api.github.com/users/${username}
+function myNewFollowers(array) {
+    array.forEach(item => {
+      axios.get(`https://api.github.com/users/${item}`)
+        .then(response => {
+          console.log("Yay!!!");
+          console.log(response);
+            const newestFollowerCards = createCard(response.data);
+            cards.appendChild(newestFollowerCards);
+        
+          }) //close then 
+          .catch(err => {
+            console.log("errors, guys");
+          })//close atch
+      })
 
-      followersArray.forEach(person => {
-        createCard(person);
-      }) //close second each
+};
 
-  
-    }) //close then 
-    .catch(err => {
-      console.log("errors, guys");
-    })
-
-  };
-
-newPerson();
-
-console.log(axios.get("https://api.github.com/users/JulieGumerman/followers"));
-
+myNewFollowers(followersArray);
 
 
 /* Step 3: Create a function that accepts a single object as its only argument,
@@ -146,6 +150,7 @@ console.log(axios.get("https://api.github.com/users/JulieGumerman/followers"));
 
 */
 
+});
 
 
 // function createFollowerCards(array){
