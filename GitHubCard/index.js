@@ -1,18 +1,13 @@
-/* Step 1: using axios, send a GET request to the following URL 
-           (replacing the palceholder with your Github name):
-           https://api.github.com/users/<your name>
-*/
-//axios.get("https://api.github.com/users/JulieGumerman");
 
-/* Step 2: Inspect and study the data coming back, this is YOUR 
-   github info! You will need to understand the structure of this 
-   data in order to use it to build your component function 
-
-   Skip to Step 3.
-*/
+//making sure my screen will read my code...
 window.addEventListener("load", function(){
-  
-  const cards = document.querySelector(".cards");
+
+//this is the data "entry point"
+
+const cards = document.querySelector(".cards");
+
+
+//making a card for myself
 
 async function cardCreator() {
       axios.get("https://api.github.com/users/JulieGumerman")
@@ -21,13 +16,13 @@ async function cardCreator() {
     .catch((err) => {
       console.log("oops");
     })
-
-
 }
 
+//calling the function to make a card for myself
 cardCreator();
  
 
+//cardmaking function (the contents and their organization)
 
 function createCard(obj) {
 
@@ -91,9 +86,6 @@ function createCard(obj) {
 }
 
 
-/* Step 4: Pass the data received from Github into your function, 
-           create a new component and add it to the DOM as a child of .cards
-*/
 
 
 
@@ -106,29 +98,63 @@ function createCard(obj) {
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
-let followersArray = ["tetondan", "allisonkydy", "justsml", "luishrd", "bigknell"];
 
-//followers_url
-//`htttps://api.github.com/users/${username}
-function myNewFollowers(array) {
-    array.forEach(item => {
-      axios.get(`https://api.github.com/users/${item}`)
-        .then(response => {
-          console.log("Yay!!!");
-          console.log(response);
-            const newestFollowerCards = createCard(response.data);
-            cards.appendChild(newestFollowerCards);
+/*******************************THIS WORKS! DO NOT ERASE IT!!!!!**************************/
+// let followersArray = ["tetondan", "allisonkydy", "justsml", "luishrd", "bigknell"];
+
+// //followers_url
+// //`htttps://api.github.com/users/${username}
+// function myNewFollowers(array) {
+//     array.forEach(item => {
+//       axios.get(`https://api.github.com/users/${item}`)
+//         .then(response => {
+//           console.log("Yay!!!");
+//           console.log(response);
+//           const newestFollowerCards = createCard(response.data);
+//           cards.appendChild(newestFollowerCards);
         
-          }) //close then 
+//           }) //close then 
+//         .catch(err => {
+//             console.log("errors, guys");
+//         })//close atch
+//       })
+
+// };
+
+// myNewFollowers(followersArray);
+
+/*************************************DO NOT TOUCH ABOVE THIS LINE!!!!!**************/
+
+function allTheNewFollowers() {
+  axios.get(`https://api.github.com/users/JulieGumerman/followers`)
+    .then(response => {
+      console.log(response);
+      console.log("I made it work!!!");
+      newFollowers=[];
+      response.data.forEach(item => {
+        newFollowers.push(item.login);
+      })//close for each
+      newFollowers.forEach(person => {
+        axios.get(`https://api.github.com/users/${person}`)
+          .then(response => {
+            console.log(response.data);
+            const brandNewCards = createCard(response.data);
+            cards.appendChild(brandNewCards);
+          })//close inner .then()
           .catch(err => {
-            console.log("errors, guys");
-          })//close atch
-      })
+            console.log(err);
+          })
+      })//close second forEach
+    })//close then
 
-};
+    .catch(err => {
+      console.log("oops!!!");
+      console.log(err);
+    })
 
-myNewFollowers(followersArray);
+}//closeFunction
 
+allTheNewFollowers();
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -150,73 +176,9 @@ myNewFollowers(followersArray);
 
 */
 
-});
+}); //closing the code that surrounds my entire window
 
 
-// function createFollowerCards(array){
-
-//     let newCards =array.map(profile => { 
-//               //elements, classes, and content
-//         let userCard = document.createElement("div");
-//         userCard.classList.add("card");
-      
-//         let cardInfo = document.createElement("div");
-//         cardInfo.classList.add("card-info");
-      
-//         let avatarImg = document.createElement("img");
-//         avatarImg.src = profile.avatar_url;
-
-//         let userHandle = document.createElement("h3");
-//         userHandle.classList.add("username");
-//         userHandle.textContent = profile.username;  
-      
-//         let userName = document.createElement("h3");
-//         userName.classList.add("name");
-//         userName.textContent = profile.name;
-      
-//         let userLocation = document.createElement("p");
-//         userLocation.textContent = `Location: ${profile.location}`;
-
-//         let userProfile = document.createElement("p");
-//         userProfile.textContent = `Profile: `;
-//         userProfileUrl = document.createElement("a");
-//         userProfileUrl.textContent = profile.url;
-//         userProfileUrl.href = profile.url;
-
-//         let userFollowers = document.createElement("p");
-//         userFollowers.textContent = `Followers: ${profile.followers}`;
-
-//         // let userFollowing = document.createElement("p");
-//         // userFollowing.textContent = `following: ${profile.following}`;
-
-//         let userFollowing = document.createElement("p");
-//         userFollowing.textContent = `Following: ${profile.following}`;
-        
-//         // let userBio = document.createElement("p");
-//         // userFollowing.textContent = profile.bio;
-
-//         let userBio = document.createElement("p");
-//         userBio.textContent = `Bio: ${profile.bio}`;
-//         //putting card together
-//         userCard.appendChild(avatarImg);
-//         userCard.append(cardInfo);
-//         cardInfo.appendChild(userName);
-//         cardInfo.appendChild(userHandle);
-//         cardInfo.appendChild(userLocation);
-//         cardInfo.appendChild(userProfile);
-//         userProfile.appendChild(userProfileUrl);
-//         cardInfo.appendChild(userFollowers);
-//         cardInfo.appendChild(userFollowing);
-//         cardInfo.appendChild(userBio);
-//         //cardInfo.appendChild(userBio);
-//         cards.appendChild(userCard);
-
-//         return userCard;
-//       });
-    
-//     return newCards;
-    
-// };
 
 // createFollowerCards(followersArray);
 /* List of LS Instructors Github username's: 
