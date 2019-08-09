@@ -99,60 +99,32 @@ function createCard(obj) {
           user, and adding that card to the DOM.
 */
 
-const followersArray = [
-  {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/8921126?s=400&v=4",
-    "name": "Lisa Gumerman",
-    "username": "lisagumerman",
-    "location": "Fort Collins, CO",
-    "url": "https://github.com/lisagumerman",
-    "followers": 1,
-    "following": 0,
-    "bio": "How does this kid not have a jillion followers? Seriously."
-  },
-  {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/2894866?s=400&v=4",
-    "name": "Josiah Haswell",
-    "username": "josiahhaswell",
-    "location": "Fort Collins, CO",
-    "url": "https://github.com/josiahhaswell",
-    "followers": 1,
-    "following": 0,
-    "bio": "He and Lisa are my sister and my brother-in-law, so I have to give them grief."
-  },
-    {
-    "avatar_url": "https://avatars3.githubusercontent.com/u/52683769?s=400&v=4",
-    "name": "Jeffrey Whitaker",
-    "username": "jeffreywhitaker",
-    "location": "Oregon",
-    "url": "https://github.com/jeffreywhitaker",
-    "followers": 3,
-    "following": 7,
-    "bio": "Lambda School student, Web22"
-  },
+async function newPerson() {
+  axios.get("https://api.github.com/users/JulieGumerman/followers")
+    .then(response => {
+      console.log("Yay!!!");
+      let followersArray = [];
+      response.data.forEach((person) => {
+        followersArray.push(person);
+      }) //close for each
 
-  {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/38510732?s=400&v=4",
-    "name": "Elizabeth",
-    "username": "pontiferous",
-    "location": "Colorado Springs, CO",
-    "url": "https://github.com/pontiferous",
-    "followers": 5,
-    "following": 6,
-    "bio": "Mediocre nerd and artist. Breakfast food enthusiast. Epilepsy advocate."
-  },
-  {
-    "avatar_url": "https://avatars1.githubusercontent.com/u/14138530?s=400&v=4",
-    "name": "Jonathan Taylor",
-    "username": "jonyonson",
-    "location": "Alabama",
-    "url": "https://github.com/jonyonson",
-    "followers": 12,
-    "following": 14,
-    "bio": "Studying Full-Stack Web Development & Computer Science at Lambda School."
-  }
+      followersArray.forEach(person => {
+        createCard(person);
+      }) //close second each
 
-];
+  
+    }) //close then 
+    .catch(err => {
+      console.log("errors, guys");
+    })
+
+  };
+
+newPerson();
+
+console.log(axios.get("https://api.github.com/users/JulieGumerman/followers"));
+
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -176,72 +148,72 @@ const followersArray = [
 
 
 
-function createFollowerCards(array){
+// function createFollowerCards(array){
 
-    let newCards =array.map(profile => { 
-              //elements, classes, and content
-        let userCard = document.createElement("div");
-        userCard.classList.add("card");
+//     let newCards =array.map(profile => { 
+//               //elements, classes, and content
+//         let userCard = document.createElement("div");
+//         userCard.classList.add("card");
       
-        let cardInfo = document.createElement("div");
-        cardInfo.classList.add("card-info");
+//         let cardInfo = document.createElement("div");
+//         cardInfo.classList.add("card-info");
       
-        let avatarImg = document.createElement("img");
-        avatarImg.src = profile.avatar_url;
+//         let avatarImg = document.createElement("img");
+//         avatarImg.src = profile.avatar_url;
 
-        let userHandle = document.createElement("h3");
-        userHandle.classList.add("username");
-        userHandle.textContent = profile.username;  
+//         let userHandle = document.createElement("h3");
+//         userHandle.classList.add("username");
+//         userHandle.textContent = profile.username;  
       
-        let userName = document.createElement("h3");
-        userName.classList.add("name");
-        userName.textContent = profile.name;
+//         let userName = document.createElement("h3");
+//         userName.classList.add("name");
+//         userName.textContent = profile.name;
       
-        let userLocation = document.createElement("p");
-        userLocation.textContent = `Location: ${profile.location}`;
+//         let userLocation = document.createElement("p");
+//         userLocation.textContent = `Location: ${profile.location}`;
 
-        let userProfile = document.createElement("p");
-        userProfile.textContent = `Profile: `;
-        userProfileUrl = document.createElement("a");
-        userProfileUrl.textContent = profile.url;
-        userProfileUrl.href = profile.url;
+//         let userProfile = document.createElement("p");
+//         userProfile.textContent = `Profile: `;
+//         userProfileUrl = document.createElement("a");
+//         userProfileUrl.textContent = profile.url;
+//         userProfileUrl.href = profile.url;
 
-        let userFollowers = document.createElement("p");
-        userFollowers.textContent = `Followers: ${profile.followers}`;
+//         let userFollowers = document.createElement("p");
+//         userFollowers.textContent = `Followers: ${profile.followers}`;
 
-        // let userFollowing = document.createElement("p");
-        // userFollowing.textContent = `following: ${profile.following}`;
+//         // let userFollowing = document.createElement("p");
+//         // userFollowing.textContent = `following: ${profile.following}`;
 
-        let userFollowing = document.createElement("p");
-        userFollowing.textContent = `Following: ${profile.following}`;
+//         let userFollowing = document.createElement("p");
+//         userFollowing.textContent = `Following: ${profile.following}`;
         
-        // let userBio = document.createElement("p");
-        // userFollowing.textContent = profile.bio;
+//         // let userBio = document.createElement("p");
+//         // userFollowing.textContent = profile.bio;
 
-        let userBio = document.createElement("p");
-        userBio.textContent = `Bio: ${profile.bio}`;
-        //putting card together
-        userCard.appendChild(avatarImg);
-        userCard.append(cardInfo);
-        cardInfo.appendChild(userName);
-        cardInfo.appendChild(userHandle);
-        cardInfo.appendChild(userLocation);
-        cardInfo.appendChild(userProfile);
-        userProfile.appendChild(userProfileUrl);
-        cardInfo.appendChild(userFollowers);
-        cardInfo.appendChild(userFollowing);
-        cardInfo.appendChild(userBio);
-        //cardInfo.appendChild(userBio);
-        cards.appendChild(userCard);
+//         let userBio = document.createElement("p");
+//         userBio.textContent = `Bio: ${profile.bio}`;
+//         //putting card together
+//         userCard.appendChild(avatarImg);
+//         userCard.append(cardInfo);
+//         cardInfo.appendChild(userName);
+//         cardInfo.appendChild(userHandle);
+//         cardInfo.appendChild(userLocation);
+//         cardInfo.appendChild(userProfile);
+//         userProfile.appendChild(userProfileUrl);
+//         cardInfo.appendChild(userFollowers);
+//         cardInfo.appendChild(userFollowing);
+//         cardInfo.appendChild(userBio);
+//         //cardInfo.appendChild(userBio);
+//         cards.appendChild(userCard);
 
-        return userCard;
-      });
+//         return userCard;
+//       });
     
-    return newCards;
+//     return newCards;
     
-};
+// };
 
-createFollowerCards(followersArray);
+// createFollowerCards(followersArray);
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
