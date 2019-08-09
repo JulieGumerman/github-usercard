@@ -115,7 +115,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid #1fc8db;
 }
 .card .name {
   font-size: 3.4rem;
