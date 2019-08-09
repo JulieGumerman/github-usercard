@@ -49,10 +49,14 @@ function createCard(obj) {
   userHandle.textContent = obj.login;
 
   let userProfile = document.createElement("p");
-  userProfile.textContent = "Profile:";
+  userProfile.textContent = "Profile: ";
   let userProfileUrl = document.createElement("a");
   userProfileUrl.textContent = `${obj.html_url}`;
   userProfileUrl.href = obj.html_url;
+
+
+  let userSpecifics = document.createElement("div");
+  userSpecifics.classList.add("user-specifics");
 
 
   let userFollowers = document.createElement("p");
@@ -61,10 +65,11 @@ function createCard(obj) {
   let userFollowing = document.createElement("p");
   userFollowing.textContent = `Following: ${obj.following}`;
 
-
+  let userRepos = document.createElement("p");
+  userRepos.textContent = `Public repos: ${obj.public_repos}`;
 
   let userBio = document.createElement("p");
-  userBio.textContent = `Bio: ${obj.bio}`
+  userBio.textContent = `Bio: ${obj.bio}`;
 
   //putting card together
   userCard.appendChild(avatarImg);
@@ -74,14 +79,26 @@ function createCard(obj) {
   cardInfo.appendChild(userLocation);
   cardInfo.appendChild(userProfile);
   userProfile.appendChild(userProfileUrl);
-  cardInfo.appendChild(userFollowers);
-  cardInfo.appendChild(userFollowing);
-  cardInfo.appendChild(userBio);
+  userCard.appendChild(userSpecifics);
+  userSpecifics.appendChild(userFollowers);
+  userSpecifics.appendChild(userFollowing);
+  userSpecifics.appendChild(userRepos);
+  userSpecifics.appendChild(userBio);
 
 
   cards.appendChild(userCard);
   
+  //event handler
+  userCard.addEventListener("mouseover", () => {
+    userSpecifics.style.display = "block";
+    cardInfo.style.borderBottom = "1px solid #1fc8db";
+  }) //close event handler
 
+  userCard.addEventListener("mouseleave", () => {
+    userSpecifics.style.display = "none";
+    cardInfo.style.borderBottom = "none";
+  })
+  //return card
   return userCard;
 }
 
